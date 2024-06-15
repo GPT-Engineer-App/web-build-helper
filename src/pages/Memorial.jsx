@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Text, VStack, Image, Button, FormControl, FormLabel, Input, Textarea } from "@chakra-ui/react";
+import { Box, Text, VStack, Image, Button, FormControl, FormLabel, Input, Textarea, SimpleGrid, Card, CardBody, CardFooter, Heading } from "@chakra-ui/react";
 import { getFirestore, doc, getDoc, collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
@@ -97,7 +97,41 @@ const Memorial = () => {
           </FormControl>
         </Box>
         {isOwner && (
-          <Button>Purchase Products with QR Code</Button>
+          <Box w="100%">
+            <Text fontSize="xl" mt={4}>Purchase Products with QR Code</Text>
+            <SimpleGrid columns={[1, null, 3]} spacing="40px" mt={4}>
+              <Card>
+                <CardBody>
+                  <Image src="/path/to/product1.jpg" alt="Product 1" />
+                  <Heading size="md" mt={4}>Product 1</Heading>
+                  <Text mt={2}>Description of Product 1</Text>
+                </CardBody>
+                <CardFooter>
+                  <Button>Buy Now</Button>
+                </CardFooter>
+              </Card>
+              <Card>
+                <CardBody>
+                  <Image src="/path/to/product2.jpg" alt="Product 2" />
+                  <Heading size="md" mt={4}>Product 2</Heading>
+                  <Text mt={2}>Description of Product 2</Text>
+                </CardBody>
+                <CardFooter>
+                  <Button>Buy Now</Button>
+                </CardFooter>
+              </Card>
+              <Card>
+                <CardBody>
+                  <Image src="/path/to/product3.jpg" alt="Product 3" />
+                  <Heading size="md" mt={4}>Product 3</Heading>
+                  <Text mt={2}>Description of Product 3</Text>
+                </CardBody>
+                <CardFooter>
+                  <Button>Buy Now</Button>
+                </CardFooter>
+              </Card>
+            </SimpleGrid>
+          </Box>
         )}
       </VStack>
     </Box>
