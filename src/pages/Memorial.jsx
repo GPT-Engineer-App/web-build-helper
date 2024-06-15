@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Text, VStack, Image, Button } from "@chakra-ui/react";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { Box, Text, VStack, Image, Button, FormControl, FormLabel, Input, Textarea } from "@chakra-ui/react";
+import { getFirestore, doc, getDoc, collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const Memorial = () => {
   const { id } = useParams();
   const [memorial, setMemorial] = useState(null);
   const [error, setError] = useState("");
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
   const auth = getAuth();
   const db = getFirestore();
 
@@ -27,8 +29,34 @@ const Memorial = () => {
       }
     };
 
+    const fetchComments = async () => {
+      try {
+        const q = query(collection(db, "comments"), where("memorialId", "==", id));
+        const querySnapshot = await getDocs(q);
+        const commentsData = querySnapshot.docs.map(doc => doc.data());
+        setComments(commentsData);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
     fetchMemorial();
+    fetchComments();
   }, [id, db]);
+
+  const handleAddComment = async () => {
+    try {
+      await addDoc(collection(db, "comments"), {
+        memorialId: id,
+        text: newComment,
+        createdAt: new Date(),
+      });
+      setNewComment("");
+      fetchComments();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   if (error) {
     return <Text color="red.500">{error}</Text>;
@@ -55,6 +83,19 @@ const Memorial = () => {
         {memorial.audios.map((aud, index) => (
           <audio key={index} src={URL.createObjectURL(aud)} controls />
         ))}
+        <Box w="100%">
+          <Text fontSize="xl">Comments</Text>
+          {comments.map((comment, index) => (
+            <Box key={index} p={2} borderWidth="1px" borderRadius="md" w="100%">
+              <Text>{comment.text}</Text>
+            </Box>
+          ))}
+          <FormControl id="new-comment" mt={4}>
+            <FormLabel>Add a Comment</FormLabel>
+            <Textarea value={newComment} onChange={(e) => setNewComment(e.target.value)} />
+            <Button mt={2} onClick={handleAddComment}>Submit</Button>
+          </FormControl>
+        </Box>
         {isOwner && (
           <Button>Purchase Products with QR Code</Button>
         )}
