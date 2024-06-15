@@ -12,6 +12,9 @@ const Index = () => {
       <VStack spacing={4}>
         <Text fontSize="2xl">Your Blank Canvas</Text>
         <Text>Chat with the agent to start making edits.</Text>
+        <Text fontSize="lg" textAlign="center">
+          Our service helps you create a lasting memory of your loved one by allowing you to share pictures, videos, and stories. Invite friends and family to contribute and create a beautiful, lasting tribute.
+        </Text>
       </VStack>
     </Container>
   );
