@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Text, VStack, Image, Video, Audio, Button } from "@chakra-ui/react";
+import { Box, Text, VStack, Image, Button } from "@chakra-ui/react";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
@@ -50,10 +50,10 @@ const Memorial = () => {
           <Image key={index} src={URL.createObjectURL(pic)} alt={`Picture ${index + 1}`} />
         ))}
         {memorial.videos.map((vid, index) => (
-          <Video key={index} src={URL.createObjectURL(vid)} controls />
+          <video key={index} src={URL.createObjectURL(vid)} controls />
         ))}
         {memorial.audios.map((aud, index) => (
-          <Audio key={index} src={URL.createObjectURL(aud)} controls />
+          <audio key={index} src={URL.createObjectURL(aud)} controls />
         ))}
         {isOwner && (
           <Button>Purchase Products with QR Code</Button>
