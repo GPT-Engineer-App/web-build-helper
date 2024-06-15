@@ -16,6 +16,9 @@ const Navbar = () => {
           <Link as={RouterLink} to="/login" px={2}>
             Login
           </Link>
+          <Link as={RouterLink} to="/create-memorial" px={2}>
+            Create Memorial
+          </Link>
         </Flex>
       </Flex>
     </Box>
