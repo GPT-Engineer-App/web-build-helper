@@ -13,6 +13,17 @@ const Memorial = () => {
   const auth = getAuth();
   const db = getFirestore();
 
+  const fetchComments = async () => {
+    try {
+      const q = query(collection(db, "comments"), where("memorialId", "==", id));
+      const querySnapshot = await getDocs(q);
+      const commentsData = querySnapshot.docs.map(doc => doc.data());
+      setComments(commentsData);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   useEffect(() => {
     const fetchMemorial = async () => {
       try {
@@ -24,17 +35,6 @@ const Memorial = () => {
         } else {
           setError("No such memorial page found.");
         }
-      } catch (err) {
-        setError(err.message);
-      }
-    };
-
-    const fetchComments = async () => {
-      try {
-        const q = query(collection(db, "comments"), where("memorialId", "==", id));
-        const querySnapshot = await getDocs(q);
-        const commentsData = querySnapshot.docs.map(doc => doc.data());
-        setComments(commentsData);
       } catch (err) {
         setError(err.message);
       }
