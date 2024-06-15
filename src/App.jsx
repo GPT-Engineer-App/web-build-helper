@@ -5,6 +5,7 @@ import Login from "./pages/Login.jsx";
 import Navbar from "./components/Navbar.jsx";
 import CreateMemorial from "./pages/CreateMemorial.jsx";
 import Memorial from "./pages/Memorial.jsx";
+import Promotional from "./pages/Promotional.jsx";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/create-memorial" element={<CreateMemorial />} />
         <Route exact path="/memorial/:id" element={<Memorial />} />
+        <Route exact path="/promotional" element={<Promotional />} />
       </Routes>
     </Router>
   );
