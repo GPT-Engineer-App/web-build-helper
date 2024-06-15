@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button, FormControl, FormLabel, Input, Textarea, VStack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, updateDoc } from "firebase/firestore";
 import QRCode from "qrcode.react";
 
 const CreateMemorial = () => {
@@ -39,11 +39,19 @@ const CreateMemorial = () => {
       });
 
       const qrCodeUrl = `${window.location.origin}/memorial/${docRef.id}`;
+      await updateDoc(docRef, { qrCodeUrl });
       setQrCode(qrCodeUrl);
     } catch (err) {
       setError(err.message);
     }
   };
+
+  useEffect(() => {
+    if (qrCode) {
+      const qrCodeUrl = `${window.location.origin}/memorial/${qrCode}`;
+      setQrCode(qrCodeUrl);
+    }
+  }, [qrCode]);
 
   return (
     <Box p={4}>
